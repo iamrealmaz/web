@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuraCanvas - AI Image Generator</title>
+    <title>Studio Maz - AI Image Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -252,12 +252,6 @@
             box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
         }
         
-        /* Code Block */
-        .code-block {
-            background: #0a0a0f;
-            font-family: 'Fira Code', monospace;
-        }
-        
         /* Masonry Grid */
         .masonry-grid {
             columns: 3;
@@ -304,6 +298,12 @@
             visibility: visible;
             transform: translateX(-50%) translateY(-5px);
         }
+
+        /* Rate Limit Banner */
+        .rate-limit-banner {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(217, 70, 239, 0.2));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -335,7 +335,7 @@
                         <div class="w-10 h-10 rounded-xl gradient-btn flex items-center justify-center">
                             <i class="ph-fill ph-magic-wand text-white text-xl"></i>
                         </div>
-                        <span class="text-xl font-bold gradient-text">NeuraCanvas</span>
+                        <span class="text-xl font-bold gradient-text">Studio Maz</span>
                     </a>
                     
                     <!-- Desktop Nav -->
@@ -430,32 +430,32 @@
                 <div class="scroll-strip flex gap-6 w-max">
                     <!-- First Set -->
                     <div class="flex gap-6">
-                        <img src="https://image.pollinations.ai/prompt/cyberpunk%20city%20at%20night%20neon%20lights?width=400&height=300&seed=1" 
+                        <img src="https://image.pollinations.ai/prompt/cyberpunk%20city%20at%20night%20neon%20lights?width=400&height=300&seed=1&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-primary">
-                        <img src="https://image.pollinations.ai/prompt/magical%20forest%20with%20glowing%20mushrooms?width=400&height=300&seed=2" 
+                        <img src="https://image.pollinations.ai/prompt/magical%20forest%20with%20glowing%20mushrooms?width=400&height=300&seed=2&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-secondary">
-                        <img src="https://image.pollinations.ai/prompt/astronaut%20riding%20horse%20on%20mars?width=400&height=300&seed=3" 
+                        <img src="https://image.pollinations.ai/prompt/astronaut%20riding%20horse%20on%20mars?width=400&height=300&seed=3&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-primary">
-                        <img src="https://image.pollinations.ai/prompt/japanese%20temple%20cherry%20blossom%20anime?width=400&height=300&seed=4" 
+                        <img src="https://image.pollinations.ai/prompt/japanese%20temple%20cherry%20blossom%20anime?width=400&height=300&seed=4&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-secondary">
-                        <img src="https://image.pollinations.ai/prompt/steampunk%20airship%20flying%20castle?width=400&height=300&seed=5" 
+                        <img src="https://image.pollinations.ai/prompt/steampunk%20airship%20flying%20castle?width=400&height=300&seed=5&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-primary">
-                        <img src="https://image.pollinations.ai/prompt/underwater%20palace%20mermaids%20coral?width=400&height=300&seed=6" 
+                        <img src="https://image.pollinations.ai/prompt/underwater%20palace%20mermaids%20coral?width=400&height=300&seed=6&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-secondary">
                     </div>
                     <!-- Duplicate for seamless loop -->
                     <div class="flex gap-6">
-                        <img src="https://image.pollinations.ai/prompt/cyberpunk%20city%20at%20night%20neon%20lights?width=400&height=300&seed=1" 
+                        <img src="https://image.pollinations.ai/prompt/cyberpunk%20city%20at%20night%20neon%20lights?width=400&height=300&seed=1&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-primary">
-                        <img src="https://image.pollinations.ai/prompt/magical%20forest%20with%20glowing%20mushrooms?width=400&height=300&seed=2" 
+                        <img src="https://image.pollinations.ai/prompt/magical%20forest%20with%20glowing%20mushrooms?width=400&height=300&seed=2&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-secondary">
-                        <img src="https://image.pollinations.ai/prompt/astronaut%20riding%20horse%20on%20mars?width=400&height=300&seed=3" 
+                        <img src="https://image.pollinations.ai/prompt/astronaut%20riding%20horse%20on%20mars?width=400&height=300&seed=3&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-primary">
-                        <img src="https://image.pollinations.ai/prompt/japanese%20temple%20cherry%20blossom%20anime?width=400&height=300&seed=4" 
+                        <img src="https://image.pollinations.ai/prompt/japanese%20temple%20cherry%20blossom%20anime?width=400&height=300&seed=4&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-secondary">
-                        <img src="https://image.pollinations.ai/prompt/steampunk%20airship%20flying%20castle?width=400&height=300&seed=5" 
+                        <img src="https://image.pollinations.ai/prompt/steampunk%20airship%20flying%20castle?width=400&height=300&seed=5&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-primary">
-                        <img src="https://image.pollinations.ai/prompt/underwater%20palace%20mermaids%20coral?width=400&height=300&seed=6" 
+                        <img src="https://image.pollinations.ai/prompt/underwater%20palace%20mermaids%20coral?width=400&height=300&seed=6&nologo=true" 
                              alt="AI Art" class="w-64 h-48 object-cover rounded-2xl glow-secondary">
                     </div>
                 </div>
@@ -467,7 +467,7 @@
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16 fade-in">
                     <h2 class="text-4xl md:text-5xl font-bold mb-4">
-                        Why Choose <span class="gradient-text">NeuraCanvas</span>?
+                        Why Choose <span class="gradient-text">Studio Maz</span>?
                     </h2>
                     <p class="text-xl text-gray-400 max-w-2xl mx-auto">
                         Experience the future of creative imaging with our cutting-edge AI technology
@@ -561,14 +561,14 @@
                         Explore the <span class="gradient-text">Gallery</span>
                     </h2>
                     <p class="text-xl text-gray-400 max-w-2xl mx-auto">
-                        Discover what others have created with NeuraCanvas
+                        Discover what others have created with Studio Maz
                     </p>
                 </div>
                 
                 <div class="masonry-grid">
                     <!-- Gallery Items -->
                     <div class="masonry-item image-card relative rounded-2xl overflow-hidden cursor-pointer fade-in">
-                        <img src="https://image.pollinations.ai/prompt/ethereal%20goddess%20in%20space%20nebula%20colors%20divine%20beauty?width=600&height=800&seed=100" 
+                        <img src="https://image.pollinations.ai/prompt/ethereal%20goddess%20in%20space%20nebula%20colors%20divine%20beauty?width=600&height=800&seed=100&nologo=true" 
                              alt="Gallery Image" class="w-full rounded-2xl">
                         <div class="image-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <p class="text-sm text-gray-300 mb-2">Prompt:</p>
@@ -577,7 +577,7 @@
                     </div>
                     
                     <div class="masonry-item image-card relative rounded-2xl overflow-hidden cursor-pointer fade-in" style="transition-delay: 0.1s;">
-                        <img src="https://image.pollinations.ai/prompt/futuristic%20tokyo%20street%20rain%20neon%20signs%20cyberpunk?width=600&height=400&seed=101" 
+                        <img src="https://image.pollinations.ai/prompt/futuristic%20tokyo%20street%20rain%20neon%20signs%20cyberpunk?width=600&height=400&seed=101&nologo=true" 
                              alt="Gallery Image" class="w-full rounded-2xl">
                         <div class="image-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <p class="text-sm text-gray-300 mb-2">Prompt:</p>
@@ -586,7 +586,7 @@
                     </div>
                     
                     <div class="masonry-item image-card relative rounded-2xl overflow-hidden cursor-pointer fade-in" style="transition-delay: 0.2s;">
-                        <img src="https://image.pollinations.ai/prompt/ancient%20dragon%20guarding%20treasure%20cave%20fantasy%20art?width=600&height=600&seed=102" 
+                        <img src="https://image.pollinations.ai/prompt/ancient%20dragon%20guarding%20treasure%20cave%20fantasy%20art?width=600&height=600&seed=102&nologo=true" 
                              alt="Gallery Image" class="w-full rounded-2xl">
                         <div class="image-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <p class="text-sm text-gray-300 mb-2">Prompt:</p>
@@ -595,7 +595,7 @@
                     </div>
                     
                     <div class="masonry-item image-card relative rounded-2xl overflow-hidden cursor-pointer fade-in" style="transition-delay: 0.15s;">
-                        <img src="https://image.pollinations.ai/prompt/beautiful%20anime%20girl%20sakura%20petals%20spring%20garden?width=600&height=750&seed=103" 
+                        <img src="https://image.pollinations.ai/prompt/beautiful%20anime%20girl%20sakura%20petals%20spring%20garden?width=600&height=750&seed=103&nologo=true" 
                              alt="Gallery Image" class="w-full rounded-2xl">
                         <div class="image-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <p class="text-sm text-gray-300 mb-2">Prompt:</p>
@@ -604,7 +604,7 @@
                     </div>
                     
                     <div class="masonry-item image-card relative rounded-2xl overflow-hidden cursor-pointer fade-in" style="transition-delay: 0.25s;">
-                        <img src="https://image.pollinations.ai/prompt/abandoned%20spaceship%20interior%20alien%20plants%20growing?width=600&height=450&seed=104" 
+                        <img src="https://image.pollinations.ai/prompt/abandoned%20spaceship%20interior%20alien%20plants%20growing?width=600&height=450&seed=104&nologo=true" 
                              alt="Gallery Image" class="w-full rounded-2xl">
                         <div class="image-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <p class="text-sm text-gray-300 mb-2">Prompt:</p>
@@ -613,7 +613,7 @@
                     </div>
                     
                     <div class="masonry-item image-card relative rounded-2xl overflow-hidden cursor-pointer fade-in" style="transition-delay: 0.3s;">
-                        <img src="https://image.pollinations.ai/prompt/mystical%20owl%20galaxy%20wings%20cosmic%20wisdom?width=600&height=600&seed=105" 
+                        <img src="https://image.pollinations.ai/prompt/mystical%20owl%20galaxy%20wings%20cosmic%20wisdom?width=600&height=600&seed=105&nologo=true" 
                              alt="Gallery Image" class="w-full rounded-2xl">
                         <div class="image-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <p class="text-sm text-gray-300 mb-2">Prompt:</p>
@@ -622,7 +622,7 @@
                     </div>
                     
                     <div class="masonry-item image-card relative rounded-2xl overflow-hidden cursor-pointer fade-in" style="transition-delay: 0.2s;">
-                        <img src="https://image.pollinations.ai/prompt/crystal%20palace%20floating%20clouds%20fantasy%20kingdom?width=600&height=500&seed=106" 
+                        <img src="https://image.pollinations.ai/prompt/crystal%20palace%20floating%20clouds%20fantasy%20kingdom?width=600&height=500&seed=106&nologo=true" 
                              alt="Gallery Image" class="w-full rounded-2xl">
                         <div class="image-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <p class="text-sm text-gray-300 mb-2">Prompt:</p>
@@ -631,7 +631,7 @@
                     </div>
                     
                     <div class="masonry-item image-card relative rounded-2xl overflow-hidden cursor-pointer fade-in" style="transition-delay: 0.35s;">
-                        <img src="https://image.pollinations.ai/prompt/robot%20samurai%20cherry%20blossom%20battlefield%20cinematic?width=600&height=700&seed=107" 
+                        <img src="https://image.pollinations.ai/prompt/robot%20samurai%20cherry%20blossom%20battlefield%20cinematic?width=600&height=700&seed=107&nologo=true" 
                              alt="Gallery Image" class="w-full rounded-2xl">
                         <div class="image-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <p class="text-sm text-gray-300 mb-2">Prompt:</p>
@@ -640,7 +640,7 @@
                     </div>
                     
                     <div class="masonry-item image-card relative rounded-2xl overflow-hidden cursor-pointer fade-in" style="transition-delay: 0.4s;">
-                        <img src="https://image.pollinations.ai/prompt/underwater%20city%20bioluminescent%20creatures%20coral%20architecture?width=600&height=450&seed=108" 
+                        <img src="https://image.pollinations.ai/prompt/underwater%20city%20bioluminescent%20creatures%20coral%20architecture?width=600&height=450&seed=108&nologo=true" 
                              alt="Gallery Image" class="w-full rounded-2xl">
                         <div class="image-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <p class="text-sm text-gray-300 mb-2">Prompt:</p>
@@ -674,7 +674,7 @@
                     <!-- Blog Post 1 -->
                     <article class="glass rounded-3xl overflow-hidden group fade-in">
                         <div class="relative overflow-hidden">
-                            <img src="https://image.pollinations.ai/prompt/abstract%20ai%20neural%20network%20visualization%20blue%20purple?width=600&height=400&seed=200" 
+                            <img src="https://image.pollinations.ai/prompt/abstract%20ai%20neural%20network%20visualization%20blue%20purple?width=600&height=400&seed=200&nologo=true" 
                                  alt="Blog Image" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
                             <div class="absolute top-4 left-4 glass-light px-3 py-1 rounded-full text-xs font-semibold text-white">
                                 Tutorial
@@ -707,7 +707,7 @@
                     <!-- Blog Post 2 -->
                     <article class="glass rounded-3xl overflow-hidden group fade-in" style="transition-delay: 0.1s;">
                         <div class="relative overflow-hidden">
-                            <img src="https://image.pollinations.ai/prompt/different%20art%20styles%20collage%20anime%20realistic%203d?width=600&height=400&seed=201" 
+                            <img src="https://image.pollinations.ai/prompt/different%20art%20styles%20collage%20anime%20realistic%203d?width=600&height=400&seed=201&nologo=true" 
                                  alt="Blog Image" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
                             <div class="absolute top-4 left-4 glass-light px-3 py-1 rounded-full text-xs font-semibold text-white">
                                 Guide
@@ -740,7 +740,7 @@
                     <!-- Blog Post 3 -->
                     <article class="glass rounded-3xl overflow-hidden group fade-in" style="transition-delay: 0.2s;">
                         <div class="relative overflow-hidden">
-                            <img src="https://image.pollinations.ai/prompt/future%20of%20ai%20art%20holographic%20display%20technology?width=600&height=400&seed=202" 
+                            <img src="https://image.pollinations.ai/prompt/future%20of%20ai%20art%20holographic%20display%20technology?width=600&height=400&seed=202&nologo=true" 
                                  alt="Blog Image" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
                             <div class="absolute top-4 left-4 glass-light px-3 py-1 rounded-full text-xs font-semibold text-white">
                                 Insights
@@ -786,7 +786,7 @@
                             Powered by <span class="gradient-text">Pollinations.ai</span>
                         </h2>
                         <p class="text-xl text-gray-400 mb-8 leading-relaxed">
-                            NeuraCanvas leverages the powerful Pollinations.ai API to generate stunning images. This open-source API provides free access to state-of-the-art image generation models including Flux and Turbo.
+                            Studio Maz leverages the powerful Pollinations.ai API to generate stunning images. This open-source API provides free access to state-of-the-art image generation models including Flux and Turbo.
                         </p>
                         
                         <div class="space-y-4">
@@ -820,37 +820,24 @@
                         </div>
                     </div>
                     
+                    <!-- Sign Up Card Instead of Code -->
                     <div class="fade-in" style="transition-delay: 0.2s;">
-                        <div class="glass rounded-3xl p-6 overflow-hidden">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="flex gap-2">
-                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                                </div>
-                                <span class="text-gray-400 text-sm">api-example.js</span>
+                        <div class="glass rounded-3xl p-8 text-center">
+                            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-6">
+                                <i class="ph-fill ph-user-plus text-4xl text-white"></i>
                             </div>
-                            <pre class="code-block p-4 rounded-xl overflow-x-auto text-sm">
-<code class="text-gray-300"><span class="text-secondary">// Generate an AI image with Pollinations.ai</span>
-<span class="text-primary">const</span> generateImage = <span class="text-primary">async</span> (prompt) => {
-  <span class="text-primary">const</span> baseUrl = <span class="text-green-400">'https://image.pollinations.ai/prompt/'</span>;
-  
-  <span class="text-primary">const</span> params = <span class="text-primary">new</span> URLSearchParams({
-    width: <span class="text-yellow-400">1024</span>,
-    height: <span class="text-yellow-400">1024</span>,
-    seed: Math.floor(Math.random() * <span class="text-yellow-400">999999</span>),
-    model: <span class="text-green-400">'flux'</span>
-  });
-  
-  <span class="text-primary">const</span> imageUrl = 
-    <span class="text-green-400">`</span>${baseUrl}${<span class="text-primary">encodeURIComponent</span>(prompt)}?${params}<span class="text-green-400">`</span>;
-  
-  <span class="text-primary">return</span> imageUrl;
-};
-
-<span class="text-secondary">// Usage</span>
-<span class="text-primary">const</span> url = <span class="text-primary">await</span> generateImage(<span class="text-green-400">'A magical forest'</span>);
-console.log(url);</code></pre>
+                            <h3 class="text-2xl font-bold mb-4">Get Free Daily Credits</h3>
+                            <p class="text-gray-400 mb-6">
+                                Sign up for a free Pollinations.ai account to get unlimited access without rate limits. No credit card required!
+                            </p>
+                            <a href="https://enter.pollinations.ai" target="_blank" 
+                               class="gradient-btn px-8 py-4 rounded-full font-bold text-white text-lg inline-flex items-center gap-3 w-full justify-center">
+                                <i class="ph-fill ph-sign-in text-xl"></i>
+                                Sign Up Free
+                            </a>
+                            <p class="text-gray-500 text-sm mt-4">
+                                <i class="ph ph-lock-simple"></i> No rate limits with free account
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -867,7 +854,7 @@ console.log(url);</code></pre>
                             <div class="w-12 h-12 rounded-xl gradient-btn flex items-center justify-center">
                                 <i class="ph-fill ph-magic-wand text-white text-2xl"></i>
                             </div>
-                            <span class="text-2xl font-bold gradient-text">NeuraCanvas</span>
+                            <span class="text-2xl font-bold gradient-text">Studio Maz</span>
                         </a>
                         <p class="text-gray-400 mb-6 max-w-sm">
                             Transform your imagination into stunning visuals with our cutting-edge AI image generation platform. Free, fast, and unlimited.
@@ -893,7 +880,7 @@ console.log(url);</code></pre>
                             <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
                             <li><a href="#gallery" class="text-gray-400 hover:text-white transition-colors">Gallery</a></li>
                             <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">API</a></li>
+                            <li><a href="https://enter.pollinations.ai" target="_blank" class="text-gray-400 hover:text-white transition-colors">API</a></li>
                             <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Changelog</a></li>
                         </ul>
                     </div>
@@ -926,7 +913,7 @@ console.log(url);</code></pre>
                 <!-- Footer Bottom -->
                 <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p class="text-gray-500 text-sm">
-                        © 2025 NeuraCanvas. All rights reserved. Powered by Pollinations.ai
+                        © 2025 Studio Maz. All rights reserved. Powered by Pollinations.ai
                     </p>
                     <div class="flex items-center gap-4">
                         <a href="#" class="w-10 h-10 glass-light rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-primary/20 transition-all">
@@ -952,6 +939,23 @@ console.log(url);</code></pre>
     
     <!-- ========== APP INTERFACE ========== -->
     <div id="app" class="app-container fixed inset-0 bg-background z-[100]">
+        <!-- Rate Limit Banner -->
+        <div id="rateLimitBanner" class="hidden fixed top-0 left-0 right-0 z-[60] rate-limit-banner px-4 py-3">
+            <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <i class="ph-fill ph-warning text-yellow-400 text-xl"></i>
+                    <span class="text-sm text-white">
+                        <strong>Rate limit reached!</strong> Sign up for free unlimited access.
+                    </span>
+                </div>
+                <a href="https://enter.pollinations.ai" target="_blank" 
+                   class="gradient-btn px-4 py-2 rounded-full text-sm font-semibold text-white flex items-center gap-2">
+                    <i class="ph-fill ph-user-plus"></i>
+                    Get Free Credits
+                </a>
+            </div>
+        </div>
+
         <!-- Back to Landing Button -->
         <button onclick="closeApp()" class="fixed top-4 left-4 z-50 glass-light px-4 py-2 rounded-full flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
             <i class="ph ph-arrow-left"></i>
@@ -966,7 +970,7 @@ console.log(url);</code></pre>
                         <div class="w-10 h-10 rounded-xl gradient-btn flex items-center justify-center">
                             <i class="ph-fill ph-magic-wand text-white text-xl"></i>
                         </div>
-                        <span class="text-xl font-bold gradient-text">NeuraCanvas</span>
+                        <span class="text-xl font-bold gradient-text">Studio Maz</span>
                     </div>
                     
                     <!-- Mobile Close Button -->
@@ -1065,6 +1069,20 @@ console.log(url);</code></pre>
                         </div>
                     </div>
                     
+                    <!-- Sign Up CTA -->
+                    <div class="glass-light rounded-2xl p-4 border border-primary/30">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i class="ph-fill ph-crown text-yellow-400 text-xl"></i>
+                            <span class="font-semibold text-sm">No Rate Limits</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3">Sign up for free unlimited access to all features.</p>
+                        <a href="https://enter.pollinations.ai" target="_blank" 
+                           class="gradient-btn px-4 py-2 rounded-lg text-sm font-semibold text-white flex items-center justify-center gap-2 w-full">
+                            <i class="ph-fill ph-sign-in"></i>
+                            Get Free Credits
+                        </a>
+                    </div>
+                    
                     <!-- History Section -->
                     <div>
                         <div class="flex items-center justify-between mb-3">
@@ -1111,6 +1129,22 @@ console.log(url);</code></pre>
                             <div class="spinner mb-6"></div>
                             <p class="text-gray-300 font-medium">Generating your image...</p>
                             <p class="text-gray-500 text-sm mt-2" id="loadingText">This may take a few seconds</p>
+                        </div>
+                        
+                        <!-- Error State -->
+                        <div id="errorState" class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 hidden">
+                            <div class="w-20 h-20 rounded-full bg-red-500/20 flex items-center justify-center mb-6">
+                                <i class="ph-fill ph-warning text-4xl text-red-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-red-400">Rate Limit Reached</h3>
+                            <p class="text-gray-400 max-w-sm mb-6">
+                                You've hit the anonymous tier limit. Sign up for free to get unlimited access!
+                            </p>
+                            <a href="https://enter.pollinations.ai" target="_blank" 
+                               class="gradient-btn px-6 py-3 rounded-full font-semibold text-white flex items-center gap-2">
+                                <i class="ph-fill ph-user-plus text-lg"></i>
+                                Sign Up Free
+                            </a>
                         </div>
                         
                         <!-- Generated Image -->
@@ -1181,6 +1215,7 @@ console.log(url);</code></pre>
         let currentImageUrl = '';
         let currentPrompt = '';
         let isGenerating = false;
+        let rateLimitHit = false;
         
         // ===== LANDING PAGE FUNCTIONS =====
         function toggleMobileMenu() {
@@ -1335,11 +1370,14 @@ console.log(url);</code></pre>
                 showImage(imageUrl);
                 saveToHistory(imageUrl, prompt);
                 isGenerating = false;
+                rateLimitHit = false;
+                document.getElementById('rateLimitBanner').classList.add('hidden');
             };
             
             img.onerror = function() {
-                showToast('Failed to generate image. Please try again.', 'error');
-                showPlaceholder();
+                // Check if it's a rate limit error
+                rateLimitHit = true;
+                showRateLimitError();
                 isGenerating = false;
             };
             
@@ -1355,6 +1393,7 @@ console.log(url);</code></pre>
         function showLoading() {
             document.getElementById('placeholder').classList.add('hidden');
             document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('errorState').classList.add('hidden');
             document.getElementById('generatedImage').classList.add('hidden');
             document.getElementById('imageActions').classList.add('hidden');
             
@@ -1383,6 +1422,7 @@ console.log(url);</code></pre>
         function showImage(url) {
             document.getElementById('placeholder').classList.add('hidden');
             document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
             
             const img = document.getElementById('generatedImage');
             img.src = url;
@@ -1398,6 +1438,7 @@ console.log(url);</code></pre>
         function showPlaceholder() {
             document.getElementById('placeholder').classList.remove('hidden');
             document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
             document.getElementById('generatedImage').classList.add('hidden');
             document.getElementById('imageActions').classList.add('hidden');
             
@@ -1406,9 +1447,24 @@ console.log(url);</code></pre>
             btn.innerHTML = '<i class="ph-fill ph-magic-wand text-xl"></i> Generate';
         }
         
+        function showRateLimitError() {
+            document.getElementById('placeholder').classList.add('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('errorState').classList.remove('hidden');
+            document.getElementById('generatedImage').classList.add('hidden');
+            document.getElementById('imageActions').classList.add('hidden');
+            document.getElementById('rateLimitBanner').classList.remove('hidden');
+            
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="ph-fill ph-magic-wand text-xl"></i> Generate';
+            
+            showToast('Rate limit reached. Please sign up for free access!', 'error');
+        }
+        
         // ===== HISTORY FUNCTIONS =====
         function saveToHistory(url, prompt) {
-            let history = JSON.parse(localStorage.getItem('neuracanvas_history') || '[]');
+            let history = JSON.parse(localStorage.getItem('studiomaz_history') || '[]');
             
             // Add new item at beginning
             history.unshift({
@@ -1420,12 +1476,12 @@ console.log(url);</code></pre>
             // Keep only last 20 items
             history = history.slice(0, 20);
             
-            localStorage.setItem('neuracanvas_history', JSON.stringify(history));
+            localStorage.setItem('studiomaz_history', JSON.stringify(history));
             loadHistory();
         }
         
         function loadHistory() {
-            const history = JSON.parse(localStorage.getItem('neuracanvas_history') || '[]');
+            const history = JSON.parse(localStorage.getItem('studiomaz_history') || '[]');
             const grid = document.getElementById('historyGrid');
             
             if (history.length === 0) {
@@ -1445,7 +1501,7 @@ console.log(url);</code></pre>
         }
         
         function loadFromHistory(index) {
-            const history = JSON.parse(localStorage.getItem('neuracanvas_history') || '[]');
+            const history = JSON.parse(localStorage.getItem('studiomaz_history') || '[]');
             const item = history[index];
             
             if (item) {
@@ -1459,7 +1515,7 @@ console.log(url);</code></pre>
         
         function clearHistory() {
             if (confirm('Are you sure you want to clear all history?')) {
-                localStorage.removeItem('neuracanvas_history');
+                localStorage.removeItem('studiomaz_history');
                 loadHistory();
                 showToast('History cleared', 'success');
             }
@@ -1478,7 +1534,7 @@ console.log(url);</code></pre>
                 
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `neuracanvas-${Date.now()}.png`;
+                a.download = `studiomaz-${Date.now()}.png`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1498,7 +1554,7 @@ console.log(url);</code></pre>
             if (navigator.share) {
                 navigator.share({
                     title: 'Check out my AI art!',
-                    text: `Created with NeuraCanvas: "${currentPrompt}"`,
+                    text: `Created with Studio Maz: "${currentPrompt}"`,
                     url: currentImageUrl
                 }).then(() => {
                     showToast('Shared successfully!', 'success');
