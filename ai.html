@@ -3,298 +3,309 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuralWeb | CPU-Optimized Local LLM</title>
+    <title>GitBrain | Browser-Based LLM</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --chat-bg: #1e293b;
-            --accent: #3b82f6;
-            --text-main: #e2e8f0;
-            --text-dim: #94a3b8;
-            --user-msg: #2563eb;
-            --bot-msg: #334155;
+            --bg-dark: #09090b;
+            --panel-dark: #18181b;
+            --border: #27272a;
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --text-light: #e4e4e7;
+            --text-dim: #a1a1aa;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
             margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* Header */
-        header {
-            padding: 15px 20px;
-            background: rgba(15, 23, 42, 0.9);
-            border-bottom: 1px solid #334155;
+        /* Navbar */
+        nav {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--panel-dark);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(10px);
         }
-
-        h1 { margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-        .status-dot { height: 10px; width: 10px; background-color: #ef4444; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #ef4444; transition: 0.3s; }
-        .status-dot.ready { background-color: #22c55e; box-shadow: 0 0 10px #22c55e; }
-        .status-text { font-size: 0.8rem; color: var(--text-dim); }
+        .logo { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: var(--primary); }
+        .badge { font-size: 0.7rem; background: #27272a; padding: 2px 8px; border-radius: 4px; color: var(--text-dim); }
 
         /* Chat Area */
-        #chat-container {
+        #chat-window {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 1rem;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 1rem;
             scroll-behavior: smooth;
         }
 
         .message {
-            max-width: 80%;
-            padding: 12px 18px;
-            border-radius: 12px;
+            max-width: 85%;
+            padding: 0.8rem 1rem;
+            border-radius: 0.75rem;
             line-height: 1.5;
-            font-size: 0.95rem;
+            position: relative;
             animation: fadeIn 0.3s ease;
         }
 
-        .user { align-self: flex-end; background-color: var(--user-msg); color: white; border-bottom-right-radius: 2px; }
-        .bot { align-self: flex-start; background-color: var(--bot-msg); color: var(--text-main); border-bottom-left-radius: 2px; border: 1px solid #475569; }
-        .system { align-self: center; background: transparent; color: var(--text-dim); font-size: 0.8rem; border: none; text-align: center; }
+        .user-msg {
+            align-self: flex-end;
+            background-color: var(--primary);
+            color: white;
+            border-bottom-right-radius: 0.2rem;
+        }
+
+        .bot-msg {
+            align-self: flex-start;
+            background-color: var(--panel-dark);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 0.2rem;
+        }
+
+        .system-msg {
+            align-self: center;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            background: rgba(255,255,255,0.05);
+            padding: 4px 12px;
+            border-radius: 12px;
+            text-align: center;
+        }
 
         /* Input Area */
-        #input-area {
-            padding: 20px;
-            background-color: var(--chat-bg);
-            border-top: 1px solid #334155;
+        .input-container {
+            padding: 1rem;
+            background: var(--panel-dark);
+            border-top: 1px solid var(--border);
             display: flex;
             gap: 10px;
         }
 
-        textarea {
+        input[type="text"] {
             flex: 1;
-            background-color: #0f172a;
-            border: 1px solid #475569;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
             color: white;
-            padding: 12px;
-            border-radius: 8px;
-            resize: none;
-            height: 50px;
-            font-family: inherit;
+            padding: 0.8rem;
+            border-radius: 0.5rem;
             outline: none;
+            transition: border-color 0.2s;
         }
-        textarea:focus { border-color: var(--accent); }
+        input[type="text"]:focus { border-color: var(--primary); }
 
         button {
-            background-color: var(--accent);
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 0 25px;
-            border-radius: 8px;
+            padding: 0 1.5rem;
+            border-radius: 0.5rem;
             cursor: pointer;
             font-weight: 600;
-            transition: 0.2s;
+            transition: background 0.2s;
         }
-        button:hover { background-color: #2563eb; }
-        button:disabled { background-color: #475569; cursor: not-allowed; }
+        button:hover { background: var(--primary-hover); }
+        button:disabled { background: var(--border); color: var(--text-dim); cursor: not-allowed; }
 
-        /* Metrics overlay */
-        #metrics {
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            background: rgba(0,0,0,0.6);
-            padding: 10px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.75rem;
-            color: #22c55e;
-            pointer-events: none;
-            display: none;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
         /* Loading Bar */
-        #progress-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: var(--accent);
-            width: 0%;
-            transition: width 0.2s;
-            z-index: 100;
+        .progress-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 1000;
         }
+        .progress-bar {
+            height: 100%;
+            background: #22c55e;
+            width: 0%;
+            transition: width 0.2s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Markdown-like styling for bot */
+        .bot-msg code { background: rgba(0,0,0,0.3); padding: 2px 4px; border-radius: 4px; font-family: monospace; }
     </style>
 </head>
 <body>
 
-    <div id="progress-bar"></div>
-    <header>
-        <h1><span class="status-dot" id="status-dot"></span> NeuralWeb Core</h1>
-        <span class="status-text" id="status-text">Initializing Engine...</span>
-    </header>
+    <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
 
-    <div id="metrics">Time: 0ms | T/s: 0</div>
+    <nav>
+        <div class="logo">
+            <i class="fas fa-brain"></i> GitBrain <span class="badge">CPU/WASM</span>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-dim);">
+            <i class="fab fa-github"></i> Hosted on Pages
+        </div>
+    </nav>
 
-    <div id="chat-container">
-        <div class="message system" id="welcome-msg">
-            Initialize the model to begin. This runs entirely on your CPU via WebAssembly.<br>
-            <i>Model: LaMini-Flan-T5 (248M) - 8-bit Quantized</i>
+    <div id="chat-window">
+        <div class="message system-msg">
+            Initialize the model to start chat. ~250MB Download required once.
         </div>
     </div>
 
-    <div id="input-area">
-        <textarea id="user-input" placeholder="Type a message..." disabled></textarea>
-        <button id="send-btn" disabled>Load Model</button>
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="Type your message here..." disabled autocomplete="off">
+        <button id="send-btn">Load Model</button>
     </div>
 
-    <!-- Import Transformers.js from CDN (ES Module) -->
     <script type="module">
-        import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.16.0';
+        // -----------------------------------------------------------------------------
+        // WORKER CODE (Injected as a Blob to avoid CORS/File issues on GitHub Pages)
+        // -----------------------------------------------------------------------------
+        const workerCode = `
+            import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.16.0';
 
-        // Configuration
-        env.allowLocalModels = false; // Force download from Hugging Face Hub
-        env.useBrowserCache = true;   // Cache model so reload is instant
+            // Skip local checks for GitHub Pages
+            env.allowLocalModels = false; 
+            env.useBrowserCache = true;
 
-        // DOM Elements
-        const chatContainer = document.getElementById('chat-container');
+            let generator = null;
+
+            self.onmessage = async (event) => {
+                const { type, data } = event.data;
+
+                if (type === 'load') {
+                    try {
+                        self.postMessage({ status: 'loading', message: 'Downloading model...' });
+                        
+                        // Load the model (LaMini-Flan-T5-248M is efficient for CPU)
+                        generator = await pipeline('text2text-generation', 'Xenova/LaMini-Flan-T5-248M', {
+                            quantized: true,
+                            progress_callback: (cb) => {
+                                self.postMessage({ status: 'progress', progress: cb.progress });
+                            }
+                        });
+
+                        self.postMessage({ status: 'ready' });
+                    } catch (err) {
+                        self.postMessage({ status: 'error', error: err.message });
+                    }
+                }
+
+                if (type === 'generate') {
+                    if (!generator) return;
+                    
+                    try {
+                        const output = await generator(data, {
+                            max_new_tokens: 200,
+                            temperature: 0.7,
+                            repetition_penalty: 1.2
+                        });
+                        
+                        self.postMessage({ status: 'complete', text: output[0].generated_text });
+                    } catch (err) {
+                        self.postMessage({ status: 'error', error: err.message });
+                    }
+                }
+            };
+        `;
+
+        // Create the worker from the string above
+        const blob = new Blob([workerCode], { type: 'application/javascript' });
+        const worker = new Worker(URL.createObjectURL(blob), { type: 'module' });
+
+        // -----------------------------------------------------------------------------
+        // UI LOGIC
+        // -----------------------------------------------------------------------------
+        const chatWindow = document.getElementById('chat-window');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
-        const statusText = document.getElementById('status-text');
-        const statusDot = document.getElementById('status-dot');
         const progressBar = document.getElementById('progress-bar');
-        const metricsDiv = document.getElementById('metrics');
+        let isModelLoaded = false;
 
-        let generator = null;
-        let isGenerating = false;
-
-        // Message Appender
-        function appendMessage(role, text) {
+        function addMessage(text, type) {
             const div = document.createElement('div');
-            div.className = `message ${role}`;
+            div.className = \`message \${type}\`;
             div.textContent = text;
-            chatContainer.appendChild(div);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            chatWindow.appendChild(div);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
             return div;
         }
 
-        // Initialize Model
-        async function loadModel() {
-            try {
-                sendBtn.disabled = true;
-                userInput.disabled = true;
+        worker.onmessage = (e) => {
+            const { status, message, progress, text, error } = e.data;
+
+            if (status === 'progress') {
+                if(progress) progressBar.style.width = \`\${Math.round(progress)}%\`;
+            }
+            else if (status === 'loading') {
                 sendBtn.textContent = "Downloading...";
-                statusText.textContent = "Downloading Model (approx 250MB)...";
-                progressBar.style.width = "10%";
-
-                // Using LaMini-Flan-T5-248M: It is small, fast on CPU, and follows instructions well.
-                // You can swap this for 'Xenova/TinyLlama-1.1B-Chat-v1.0' for a smarter but slower model.
-                generator = await pipeline('text2text-generation', 'Xenova/LaMini-Flan-T5-248M', {
-                    quantized: true, // Use quantized 8-bit weights for CPU optimization
-                    progress_callback: (cb) => {
-                        if (cb.status === 'progress') {
-                            const percent = Math.round(cb.progress);
-                            progressBar.style.width = `${percent}%`;
-                            statusText.textContent = `Downloading: ${percent}%`;
-                        }
-                    }
-                });
-
-                progressBar.style.width = "0%";
-                statusDot.classList.add('ready');
-                statusText.textContent = "System Ready (CPU Mode)";
-                
+                sendBtn.disabled = true;
+                addMessage("Downloading Model Resources... Please wait.", 'system-msg');
+            }
+            else if (status === 'ready') {
+                isModelLoaded = true;
+                progressBar.style.width = '0%';
                 sendBtn.textContent = "Send";
                 sendBtn.disabled = false;
                 userInput.disabled = false;
+                userInput.placeholder = "Ask me anything...";
                 userInput.focus();
-                
-                // Remove welcome message
-                const welcome = document.getElementById('welcome-msg');
-                if(welcome) welcome.style.display = 'none';
-
-                // Initial warm-up (optional, helps creates the WASM execution plan)
-                console.log("Model loaded successfully");
-
-            } catch (error) {
-                console.error(error);
-                statusText.textContent = "Error loading model. Check console.";
-                statusDot.style.backgroundColor = "orange";
+                addMessage("System Ready. CPU Interface Active.", 'system-msg');
             }
-        }
+            else if (status === 'complete') {
+                // Remove the "Thinking..." bubble if you tracked it, or just append
+                const thinkingMsg = document.querySelector('.thinking');
+                if (thinkingMsg) thinkingMsg.remove();
+                
+                addMessage(text, 'bot-msg');
+                userInput.disabled = false;
+                userInput.focus();
+                sendBtn.disabled = false;
+            }
+            else if (status === 'error') {
+                addMessage("Error: " + error, 'system-msg');
+                sendBtn.disabled = false;
+                sendBtn.textContent = isModelLoaded ? "Send" : "Retry Load";
+            }
+        };
 
-        // Handle Generation
-        async function handleChat() {
-            if (isGenerating) return;
-            
+        // Interaction
+        sendBtn.addEventListener('click', () => {
+            if (!isModelLoaded) {
+                worker.postMessage({ type: 'load' });
+            } else {
+                handleSend();
+            }
+        });
+
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && isModelLoaded) handleSend();
+        });
+
+        function handleSend() {
             const text = userInput.value.trim();
             if (!text) return;
 
-            // UI Updates
-            appendMessage('user', text);
+            addMessage(text, 'user-msg');
             userInput.value = '';
             userInput.disabled = true;
             sendBtn.disabled = true;
-            isGenerating = true;
-            metricsDiv.style.display = 'block';
 
-            const botMsgDiv = appendMessage('bot', 'Thinking...');
-            
-            const startTime = performance.now();
+            // Add a temporary thinking message
+            const thinking = document.createElement('div');
+            thinking.className = 'message bot-msg thinking';
+            thinking.textContent = 'Thinking...';
+            chatWindow.appendChild(thinking);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
 
-            try {
-                // Generate Response
-                // max_new_tokens: limits response length for speed
-                const output = await generator(text, {
-                    max_new_tokens: 150,
-                    temperature: 0.7,
-                    repetition_penalty: 1.2,
-                });
-
-                const endTime = performance.now();
-                const executionTime = ((endTime - startTime) / 1000).toFixed(2);
-                
-                // Update UI with result
-                const responseText = output[0].generated_text;
-                botMsgDiv.textContent = responseText;
-                
-                // Update Metrics
-                metricsDiv.textContent = `Time: ${executionTime}s | Device: CPU (WASM)`;
-
-            } catch (err) {
-                botMsgDiv.textContent = "Error generating response.";
-                console.error(err);
-            } finally {
-                isGenerating = false;
-                userInput.disabled = false;
-                sendBtn.disabled = false;
-                userInput.focus();
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            }
+            worker.postMessage({ type: 'generate', data: text });
         }
-
-        // Event Listeners
-        sendBtn.addEventListener('click', () => {
-            if (!generator) {
-                loadModel();
-            } else {
-                handleChat();
-            }
-        });
-
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                if (generator) handleChat();
-            }
-        });
-
     </script>
 </body>
 </html>
