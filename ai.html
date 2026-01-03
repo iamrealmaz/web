@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuralWeb | CPU-Optimized Local LLM</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --chat-bg: #1e293b;
+            --accent: #3b82f6;
+            --text-main: #e2e8f0;
+            --text-dim: #94a3b8;
+            --user-msg: #2563eb;
+            --bot-msg: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            padding: 15px 20px;
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 { margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .status-dot { height: 10px; width: 10px; background-color: #ef4444; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #ef4444; transition: 0.3s; }
+        .status-dot.ready { background-color: #22c55e; box-shadow: 0 0 10px #22c55e; }
+        .status-text { font-size: 0.8rem; color: var(--text-dim); }
+
+        /* Chat Area */
+        #chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .user { align-self: flex-end; background-color: var(--user-msg); color: white; border-bottom-right-radius: 2px; }
+        .bot { align-self: flex-start; background-color: var(--bot-msg); color: var(--text-main); border-bottom-left-radius: 2px; border: 1px solid #475569; }
+        .system { align-self: center; background: transparent; color: var(--text-dim); font-size: 0.8rem; border: none; text-align: center; }
+
+        /* Input Area */
+        #input-area {
+            padding: 20px;
+            background-color: var(--chat-bg);
+            border-top: 1px solid #334155;
+            display: flex;
+            gap: 10px;
+        }
+
+        textarea {
+            flex: 1;
+            background-color: #0f172a;
+            border: 1px solid #475569;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            resize: none;
+            height: 50px;
+            font-family: inherit;
+            outline: none;
+        }
+        textarea:focus { border-color: var(--accent); }
+
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        button:hover { background-color: #2563eb; }
+        button:disabled { background-color: #475569; cursor: not-allowed; }
+
+        /* Metrics overlay */
+        #metrics {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            padding: 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: #22c55e;
+            pointer-events: none;
+            display: none;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Loading Bar */
+        #progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.2s;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-bar"></div>
+    <header>
+        <h1><span class="status-dot" id="status-dot"></span> NeuralWeb Core</h1>
+        <span class="status-text" id="status-text">Initializing Engine...</span>
+    </header>
+
+    <div id="metrics">Time: 0ms | T/s: 0</div>
+
+    <div id="chat-container">
+        <div class="message system" id="welcome-msg">
+            Initialize the model to begin. This runs entirely on your CPU via WebAssembly.<br>
+            <i>Model: LaMini-Flan-T5 (248M) - 8-bit Quantized</i>
+        </div>
+    </div>
+
+    <div id="input-area">
+        <textarea id="user-input" placeholder="Type a message..." disabled></textarea>
+        <button id="send-btn" disabled>Load Model</button>
+    </div>
+
+    <!-- Import Transformers.js from CDN (ES Module) -->
+    <script type="module">
+        import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.16.0';
+
+        // Configuration
+        env.allowLocalModels = false; // Force download from Hugging Face Hub
+        env.useBrowserCache = true;   // Cache model so reload is instant
+
+        // DOM Elements
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const statusText = document.getElementById('status-text');
+        const statusDot = document.getElementById('status-dot');
+        const progressBar = document.getElementById('progress-bar');
+        const metricsDiv = document.getElementById('metrics');
+
+        let generator = null;
+        let isGenerating = false;
+
+        // Message Appender
+        function appendMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = `message ${role}`;
+            div.textContent = text;
+            chatContainer.appendChild(div);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return div;
+        }
+
+        // Initialize Model
+        async function loadModel() {
+            try {
+                sendBtn.disabled = true;
+                userInput.disabled = true;
+                sendBtn.textContent = "Downloading...";
+                statusText.textContent = "Downloading Model (approx 250MB)...";
+                progressBar.style.width = "10%";
+
+                // Using LaMini-Flan-T5-248M: It is small, fast on CPU, and follows instructions well.
+                // You can swap this for 'Xenova/TinyLlama-1.1B-Chat-v1.0' for a smarter but slower model.
+                generator = await pipeline('text2text-generation', 'Xenova/LaMini-Flan-T5-248M', {
+                    quantized: true, // Use quantized 8-bit weights for CPU optimization
+                    progress_callback: (cb) => {
+                        if (cb.status === 'progress') {
+                            const percent = Math.round(cb.progress);
+                            progressBar.style.width = `${percent}%`;
+                            statusText.textContent = `Downloading: ${percent}%`;
+                        }
+                    }
+                });
+
+                progressBar.style.width = "0%";
+                statusDot.classList.add('ready');
+                statusText.textContent = "System Ready (CPU Mode)";
+                
+                sendBtn.textContent = "Send";
+                sendBtn.disabled = false;
+                userInput.disabled = false;
+                userInput.focus();
+                
+                // Remove welcome message
+                const welcome = document.getElementById('welcome-msg');
+                if(welcome) welcome.style.display = 'none';
+
+                // Initial warm-up (optional, helps creates the WASM execution plan)
+                console.log("Model loaded successfully");
+
+            } catch (error) {
+                console.error(error);
+                statusText.textContent = "Error loading model. Check console.";
+                statusDot.style.backgroundColor = "orange";
+            }
+        }
+
+        // Handle Generation
+        async function handleChat() {
+            if (isGenerating) return;
+            
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // UI Updates
+            appendMessage('user', text);
+            userInput.value = '';
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+            isGenerating = true;
+            metricsDiv.style.display = 'block';
+
+            const botMsgDiv = appendMessage('bot', 'Thinking...');
+            
+            const startTime = performance.now();
+
+            try {
+                // Generate Response
+                // max_new_tokens: limits response length for speed
+                const output = await generator(text, {
+                    max_new_tokens: 150,
+                    temperature: 0.7,
+                    repetition_penalty: 1.2,
+                });
+
+                const endTime = performance.now();
+                const executionTime = ((endTime - startTime) / 1000).toFixed(2);
+                
+                // Update UI with result
+                const responseText = output[0].generated_text;
+                botMsgDiv.textContent = responseText;
+                
+                // Update Metrics
+                metricsDiv.textContent = `Time: ${executionTime}s | Device: CPU (WASM)`;
+
+            } catch (err) {
+                botMsgDiv.textContent = "Error generating response.";
+                console.error(err);
+            } finally {
+                isGenerating = false;
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+
+        // Event Listeners
+        sendBtn.addEventListener('click', () => {
+            if (!generator) {
+                loadModel();
+            } else {
+                handleChat();
+            }
+        });
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (generator) handleChat();
+            }
+        });
+
+    </script>
+</body>
+</html>
